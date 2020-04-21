@@ -272,7 +272,7 @@ var packageInfo = {},
 
 packageInfo = project_get_packageInfo();
 
-if(packageInfo != {})
+if(Object.keys(packageInfo).length > 0)
     existing = true;
 
 shell_out(`package name: [${(packageInfo.hasOwnProperty("name")) ? packageInfo.name : path.basename(process.cwd())}] `);
