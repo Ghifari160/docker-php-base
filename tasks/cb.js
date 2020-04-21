@@ -120,37 +120,37 @@ function __downloadPage(url)
 async function project_create_phpFpm_startScript()
 {
     const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/php-fpm-start.js");
-    fs.writeFileSync(".docker/scripts/php-fpm-start.js");
+    fs.writeFileSync(".docker/scripts/php-fpm-start.js", script);
 }
 
 async function project_create_phpFpm_stopScript()
 {
     const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/php-fpm-stop.js");
-    fs.writeFileSync(".docker/scripts/php-fpm-stop.js");
+    fs.writeFileSync(".docker/scripts/php-fpm-stop.js", script);
 }
 
 async function project_create_nginx_startScript()
 {
     const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/nginx-start.js");
-    fs.writeFileSync(".docker/scripts/nginx-start.js");
+    fs.writeFileSync(".docker/scripts/nginx-start.js", script);
 }
 
 async function project_create_nginx_stopScript()
 {
     const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/nginx-stop.js");
-    fs.writeFileSync(".docker/scripts/nginx-stop.js");
+    fs.writeFileSync(".docker/scripts/nginx-stop.js", script);
 }
 
 async function project_create_nginx_conf()
 {
     const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/nginx.conf");
-    fs.writeFileSync(".docker/nginx/nginx.conf");
+    fs.writeFileSync(".docker/nginx/nginx.conf", script);
 }
 
 async function project_create_phpFpm_dockerfile()
 {
     const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/dockerfile");
-    fs.writeFileSync(".docker/php-fpm/Dockerfile");
+    fs.writeFileSync(".docker/php-fpm/Dockerfile", script);
 }
 
 function project_create_directoryStructure(primary = false)
@@ -198,7 +198,7 @@ function project_build_phpFpm()
 
 function project_get_packageInfo()
 {
-    if(fs.existsSync)
+    if(fs.existsSync("package.json"))
     {
         return JSON.parse(fs.readFileSync("package.json"));
     }
