@@ -1,0 +1,7 @@
+{
+  "name": "@g16/docker-php-base",
+  "version": "0.1.0",
+  "bin": "./tasks/cb.js",
+  "license": "UNLICENSED",
+  "author": "GHIFARI160"
+}
