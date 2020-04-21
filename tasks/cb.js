@@ -267,9 +267,13 @@ async function project_create(packageInfo, primary = false, existing = false)
 
 var packageInfo = {},
     step = 0,
-    primary = false;
+    primary = false,
+    existing = false;
 
 packageInfo = project_get_packageInfo();
+
+if(packageInfo != {})
+    existing = true;
 
 shell_out(`package name: [${(packageInfo.hasOwnProperty("name")) ? packageInfo.name : path.basename(process.cwd())}] `);
 stdin.addListener("data", (data) =>
@@ -322,7 +326,7 @@ stdin.addListener("data", (data) =>
         else
         {
             primary = (input == "y") ? true : false;
-            shell_out(`${(packageInfo.hasOwnProperty("name")) ? "Update" : "Create"} project? [y/n] `);
+            shell_out(`${(existing) ? "Update" : "Create"} project? [y/n] `);
             step++;
         }
     }
@@ -338,7 +342,7 @@ stdin.addListener("data", (data) =>
         else
         {
             shell_outln("Invalid. Try again.");
-            shell_out(`${(packageInfo.hasOwnProperty("name")) ? "Update" : "Create"} project? [y/n] `);
+            shell_out(`${(existing) ? "Update" : "Create"} project? [y/n] `);
         }
     }
 
