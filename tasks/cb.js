@@ -235,17 +235,17 @@ function project_create(packageInfo, primary = false, existing = false)
 
     project_create_directoryStructure(primary);
 
-    // project_create_phpFpm_dockerfile();
-    // project_create_phpFpm_startScript();
-    // project_create_phpFpm_stopScript();
+    project_create_phpFpm_dockerfile();
+    project_create_phpFpm_startScript();
+    project_create_phpFpm_stopScript();
 
-    // project_create_nginx_conf();
-    // project_create_nginx_startScript();
-    // project_create_nginx_stopScript();
+    project_create_nginx_conf();
+    project_create_nginx_startScript();
+    project_create_nginx_stopScript();
 
-    // project_create_gitRepo();
+    project_create_gitRepo();
 
-    // project_build_phpFpm();
+    project_build_phpFpm();
     
     shell_outln("Project created.");
     process.exit(0);
