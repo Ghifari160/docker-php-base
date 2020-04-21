@@ -181,7 +181,11 @@ function project_create_directoryStructure(primary = false)
 
 function __cp_docker_rm_phpFpm()
 {
-    cp.execSync("docker rmi g16/php-fpm");
+    try
+    {
+        cp.execSync("docker rmi g16/php-fpm");
+    }
+    catch(e){}
 }
 
 function __cp_docker_build_phpFpm()
