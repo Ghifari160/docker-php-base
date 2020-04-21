@@ -34,12 +34,20 @@ function project_safetyCheck(flag)
 function project_create_packageInfo(packageInfo, primary = false)
 {
     const k = [
+        "backend-image:build-php-fpm", "backend-image:build",
+        "backend-image:delete-php-fpm", "backend-image:delete",
         "backend-start:create-net", "backend-start:php-fpm", "backend-start:nginx", "backend-start",
         "backend-stop:delete-net", "backend-stop:php-fpm", "backend-stop:nginx", "backend-stop"
     ];
 
     var p =
     {
+        "backend-image:build-php-fpm": "docker build -t g16/php-fpm .docker/php-fpm",
+        "backend-image:build": "npm run backend-image:build",
+
+        "backend-image:delete-php-fpm": "docker rmi g16/php-fpm",
+        "backend-image:delete": "npm run backend-image:delete",
+
         "backend-start:create-net": "docker network create app-net",
         "backend-start:php-fpm": "node .docker/scripts/php-fpm-start",
         "backend-start:nginx": "node .docker/scripts/nginx-start",
