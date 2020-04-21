@@ -117,39 +117,49 @@ function __downloadPage(url)
     });
 }
 
-async function project_create_phpFpm_startScript()
+async function project_create_phpFpm_startScript(primary = false)
 {
-    const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/php-fpm-start.js");
+    var script;
+    if(primary)
+        script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/master/include/php-fpm-start-primary.js");
+    else
+        script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/master/include/php-fpm-start-backend.js");
+        
     fs.writeFileSync(".docker/scripts/php-fpm-start.js", script);
 }
 
 async function project_create_phpFpm_stopScript()
 {
-    const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/php-fpm-stop.js");
+    const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/master/include/php-fpm-stop.js");
     fs.writeFileSync(".docker/scripts/php-fpm-stop.js", script);
 }
 
-async function project_create_nginx_startScript()
+async function project_create_nginx_startScript(primary = false)
 {
-    const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/nginx-start.js");
+    var script;
+    if(primary)
+        script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/master/include/nginx-start-primary.js");
+    else
+        script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/master/include/nginx-start-backend.js");
+        
     fs.writeFileSync(".docker/scripts/nginx-start.js", script);
 }
 
 async function project_create_nginx_stopScript()
 {
-    const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/nginx-stop.js");
+    const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/master/include/nginx-stop.js");
     fs.writeFileSync(".docker/scripts/nginx-stop.js", script);
 }
 
 async function project_create_nginx_conf()
 {
-    const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/nginx.conf");
+    const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/master/include/nginx.conf");
     fs.writeFileSync(".docker/nginx/nginx.conf", script);
 }
 
 async function project_create_phpFpm_dockerfile()
 {
-    const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/include/dockerfile");
+    const script = await __downloadPage("https://raw.githubusercontent.com/ghifari160/docker-php-base/master/include/Dockerfile");
     fs.writeFileSync(".docker/php-fpm/Dockerfile", script);
 }
 
@@ -231,7 +241,7 @@ function project_create_gitRepo()
     }
 }
 
-function project_create(packageInfo, primary = false, existing = false)
+async function project_create(packageInfo, primary = false, existing = false)
 {
     project_create_packageInfo(packageInfo, primary);
 
@@ -239,13 +249,13 @@ function project_create(packageInfo, primary = false, existing = false)
 
     project_create_directoryStructure(primary);
 
-    project_create_phpFpm_dockerfile();
-    project_create_phpFpm_startScript();
-    project_create_phpFpm_stopScript();
+    await project_create_phpFpm_dockerfile();
+    await project_create_phpFpm_startScript(primary);
+    await project_create_phpFpm_stopScript();
 
-    project_create_nginx_conf();
-    project_create_nginx_startScript();
-    project_create_nginx_stopScript();
+    await project_create_nginx_conf();
+    await project_create_nginx_startScript(primary);
+    await project_create_nginx_stopScript();
 
     project_create_gitRepo();
 
@@ -274,7 +284,7 @@ stdin.addListener("data", (data) =>
             else
                 packageInfo.name = (input.length > 0) ? input : path.basename(process.cwd());
             packageInfo.name = packageInfo.name.toLowerCase();
-            shell_out(`version: (${(packageInfo.hasOwnProperty("version")) ? packageInfo.version : "0.1.0"})`);
+            shell_out(`version: (${(packageInfo.hasOwnProperty("version")) ? packageInfo.version : "0.1.0"}) `);
             break;
 
         case 1:
